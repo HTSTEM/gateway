@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="view-transition" content="same-origin" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		%sveltekit.head%
+		<script>
+			window.addEventListener("pageswap", async (e) => {
+				// Nothing to do here …
+			});
+		</script>
+		<style>
+			/* For Chrome 126+ view transitions */
+			@view-transition {
+				navigation: auto;
+			}
+
+			@media (prefers-color-scheme: dark) {
+				:root {
+					background: #1e1e1e;
+					color: white;
+				}
+
+				svg {
+					filter: invert(1);
+				}
+			}
+
+			:root {
+				view-transition-name: none
+			}
+
+			@keyframes fade-in {
+				from { opacity: 0; }
+			}
+
+			@keyframes fade-out {
+				to { opacity: 0; }
+			}
+
+			@keyframes slide-from-right {
+				from { transform: translateX(30px); }
+			}
+
+			@keyframes slide-to-left {
+				to { transform: translateX(-30px); }
+			}
+
+			:root::view-transition-old(content) {
+				animation: 90ms cubic-bezier(0.4, 0, 1, 1) both fade-out,
+				300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-left;
+			}
+
+			:root::view-transition-new(content) {
+				animation: 210ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in,
+				300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-right;
+			}
+
+			/* Fonts */
+			@font-face {
+				font-family: "IBM Plex Sans";
+				src: url("/IBMPlexSans-Regular.ttf");
+				font-weight: 400;
+			}
+
+			@font-face {
+				font-family: "IBM Plex Sans";
+				src: url("/IBMPlexSans-Medium.ttf");
+				font-weight: 500;
+			}
+
+			html {
+				font-family: "IBM Plex Sans", system-ui, sans-serif;
+				height: 100%;
+			}
+
+			body {
+				margin: 0;
+			}
+
+			h1, h2, h3, h4, h5, h6, b {
+				font-weight: 500;
+			}
+
+			/* I hate CSS */
+			* {
+				box-sizing: border-box;
+			}
+
+			/* Following code is from Tailwind Preflight */
+
+			/*
+            1. Use a consistent sensible line-height in all browsers.
+            2. Prevent adjustments of font size after orientation changes in iOS.
+            3. Use a more readable tab size.
+            4. Use the user's configured `sans` font-family by default.
+            5. Use the user's configured `sans` font-feature-settings by default.
+            6. Use the user's configured `sans` font-variation-settings by default.
+            7. Disable tap highlights on iOS
+            */
+
+			html,
+			:host {
+				line-height: 1.5; /* 1 */
+				-webkit-text-size-adjust: 100%; /* 2 */
+				-moz-tab-size: 4; /* 3 */
+				tab-size: 4; /* 3 */
+				-webkit-tap-highlight-color: transparent; /* 7 */
+			}
+
+			/*
+            1. Remove the margin in all browsers.
+            2. Inherit line-height from `html` so users can set them as a class directly on the `html` element.
+            */
+
+			body {
+				margin: 0; /* 1 */
+				line-height: inherit; /* 2 */
+			}
+
+			/*
+            1. Add the correct height in Firefox.
+            2. Correct the inheritance of border color in Firefox. (https://bugzilla.mozilla.org/show_bug.cgi?id=190655)
+            3. Ensure horizontal rules are visible by default.
+            */
+
+			hr {
+				height: 0; /* 1 */
+				color: inherit; /* 2 */
+				border-top-width: 1px; /* 3 */
+			}
+
+			/*
+            Add the correct text decoration in Chrome, Edge, and Safari.
+            */
+
+			abbr:where([title]) {
+				text-decoration: underline dotted;
+			}
+
+			/*
+            Remove the default font size and weight for headings.
+            */
+
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6 {
+				font-size: inherit;
+				font-weight: 500;
+			}
+
+			h1 {
+				font-size: 2em;
+			}
+
+			h2 {
+				font-size: 1.5em
+			}
+
+			@media (max-height: 50rem) {
+				main {
+					h1 {
+						font-size: 1.5em;
+					}
+
+					h2 {
+						font-size: 1.25em
+					}
+				}
+			}
+
+			/*
+            Reset links to optimize for opt-in styling instead of opt-out.
+            */
+
+			a {
+				color: inherit;
+				text-decoration: inherit;
+			}
+
+			/*
+            1. Change the font styles in all browsers.
+            2. Remove the margin in Firefox and Safari.
+            3. Remove default padding in all browsers.
+            */
+
+			button,
+			input,
+			optgroup,
+			select,
+			textarea {
+				font-family: inherit; /* 1 */
+				font-feature-settings: inherit; /* 1 */
+				font-variation-settings: inherit; /* 1 */
+				font-size: 100%; /* 1 */
+				font-weight: inherit; /* 1 */
+				line-height: inherit; /* 1 */
+				letter-spacing: inherit; /* 1 */
+				color: inherit; /* 1 */
+				margin: 0; /* 2 */
+				padding: 0; /* 3 */
+			}
+
+			/*
+            Remove the inheritance of text transform in Edge and Firefox.
+            */
+
+			button,
+			select {
+				text-transform: none;
+			}
+
+			/*
+            1. Correct the inability to style clickable types in iOS and Safari.
+            2. Remove default button styles.
+            */
+
+			button,
+			input:where([type='button']),
+			input:where([type='reset']),
+			input:where([type='submit']) {
+				-webkit-appearance: button; /* 1 */
+				background-color: transparent; /* 2 */
+				background-image: none; /* 2 */
+			}
+
+			/*
+            Use the modern Firefox focus style for all focusable elements.
+            */
+
+			:-moz-focusring {
+				outline: auto;
+			}
+
+			/*
+            Remove the additional `:invalid` styles in Firefox. (https://github.com/mozilla/gecko-dev/blob/2f9eacd9d3d995c937b4251a5557d95d494c9be1/layout/style/res/forms.css#L728-L737)
+            */
+
+			:-moz-ui-invalid {
+				box-shadow: none;
+			}
+
+			/*
+            Add the correct vertical alignment in Chrome and Firefox.
+            */
+
+			progress {
+				vertical-align: baseline;
+			}
+
+			/*
+            Correct the cursor style of increment and decrement buttons in Safari.
+            */
+
+			::-webkit-inner-spin-button,
+			::-webkit-outer-spin-button {
+				height: auto;
+			}
+
+			/*
+            1. Correct the odd appearance in Chrome and Safari.
+            2. Correct the outline style in Safari.
+            */
+
+			[type='search'] {
+				-webkit-appearance: textfield; /* 1 */
+				outline-offset: -2px; /* 2 */
+			}
+
+			/*
+            Remove the inner padding in Chrome and Safari on macOS.
+            */
+
+			::-webkit-search-decoration {
+				-webkit-appearance: none;
+			}
+
+			/*
+            1. Correct the inability to style clickable types in iOS and Safari.
+            2. Change font properties to `inherit` in Safari.
+            */
+
+			::-webkit-file-upload-button {
+				-webkit-appearance: button; /* 1 */
+				font: inherit; /* 2 */
+			}
+
+			/*
+            Add the correct display in Chrome and Safari.
+            */
+
+			summary {
+				display: list-item;
+			}
+
+			/*
+            Removes the default spacing and border for appropriate elements.
+            */
+
+			blockquote,
+			dl,
+			dd,
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6,
+			hr,
+			figure,
+			p,
+			pre {
+				margin: 0;
+			}
+
+			fieldset {
+				margin: 0;
+				padding: 0;
+			}
+
+			legend {
+				padding: 0;
+			}
+
+			ol,
+			ul,
+			menu {
+				margin: 0;
+			}
+
+			/*
+            Reset default styling for dialogs.
+            */
+			dialog {
+				padding: 0;
+			}
+
+			/*
+            Prevent resizing textareas horizontally by default.
+            */
+
+			textarea {
+				resize: vertical;
+			}
+
+			/*
+            Set the default cursor for buttons.
+            */
+
+			button,
+			[role="button"] {
+				cursor: pointer;
+			}
+
+			/*
+            Make sure disabled buttons don't get the pointer cursor.
+            */
+			:disabled {
+				cursor: default;
+			}
+
+			/*
+            1. Make replaced elements `display: block` by default. (https://github.com/mozdevs/cssremedy/issues/14)
+            2. Add `vertical-align: middle` to align replaced elements more sensibly by default. (https://github.com/jensimmons/cssremedy/issues/14#issuecomment-634934210)
+               This can trigger a poorly considered lint error in some tools but is included by design.
+            */
+
+			img,
+			svg,
+			video,
+			canvas,
+			audio,
+			iframe,
+			embed,
+			object {
+				display: block; /* 1 */
+				vertical-align: middle; /* 2 */
+			}
+
+			/*
+            Constrain images and videos to the parent width and preserve their intrinsic aspect ratio. (https://github.com/mozdevs/cssremedy/issues/14)
+            */
+
+			img,
+			video {
+				max-width: 100%;
+				height: auto;
+			}
+
+			/* Make elements with the HTML hidden attribute stay hidden by default */
+			[hidden] {
+				display: none;
+			}
+		</style>
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+</html>
